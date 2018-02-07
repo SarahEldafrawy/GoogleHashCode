@@ -3,10 +3,10 @@ package pizza;
 import java.awt.Point;
 
 public class Slice {
-	private int tomato; 
+	private int tomato;
 	private int mashrum;
 	private int numOfCells;
-	//TODO set full slice as a marker
+	//TODO set full slice as a marker --Alaa
 	private Point leftUpperCorner;
 	private Point rightDownCorner;
 	public Slice (Point leftUpperCorner, Point rightDownCorner) {
@@ -33,12 +33,12 @@ public class Slice {
 		this.numOfCells = numOfCells;
 	}
 	public int  getHeight(){
-		//TODO Slice-Height
+		//TODO Slice-Height --Alaa
 		return 0;
 
 	}
 	public int getWidth(){
-		//TODO slice_width
+		//TODO slice_width --Alaa
 		return 0;
 
 	}
@@ -54,5 +54,5 @@ public class Slice {
 	public void setRightDownCorner(Point rightDownCorner) {
 		this.rightDownCorner = rightDownCorner;
 	}
-	
+
 }

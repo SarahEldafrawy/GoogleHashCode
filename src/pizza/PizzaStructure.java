@@ -6,7 +6,7 @@ public class PizzaStructure {
 	private int maxNumOfCells;
 	private int totalTomatoesInPizza;
 	private int totalMashrumInPizza;
-	//TODO set a map O(1)[access and removing] points of for all cells to remove visited ones 
+	//TODO set a map O(1)[access and removing] points of for all cells to remove visited ones --Sara
 	public PizzaStructure (char[][] pizza) {
 		this.pizza = pizza;
 	}
@@ -46,8 +46,8 @@ public class PizzaStructure {
 	public void setTotalMashrumInPizza(int totalMashrumInPizza) {
 		this.totalMashrumInPizza = totalMashrumInPizza;
 	}
-	
 
-	
+
+
 
 }
