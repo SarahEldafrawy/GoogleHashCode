@@ -2,16 +2,19 @@ package pizza;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Logic implements ILogic{
 	private ArrayList<Slice> slices;
 	private PizzaStructure pizzaStructure;
 	private boolean [][] visitedCells;
 	private char[][] pizzaYummy;
+	private int maximumNumberofCells;
 
 	public Logic (PizzaStructure pizzaStructure) {
 		this.pizzaStructure =pizzaStructure;
 		this.pizzaYummy = pizzaStructure.getPizza();
+		this.maximumNumberofCells = pizzaStructure.getMaxNumOfCells();
 		int row = pizzaYummy.length;
 		int col = pizzaYummy[0].length;
 		this.visitedCells = new boolean[row][col];
@@ -88,46 +91,93 @@ public class Logic implements ILogic{
 	}
 
 	private void loopCellsSliceExtender() {
-//	    it has list of unvisited cells
+		int[] unvisitedCells = new int[0]; //TODO get correct list from pizza structure
 
-//        for each in unvisited cells
+        for (int i =0; i< unvisitedCells.length; i++) {
+			Point cell = new Point(0, 0); //= list.get(i)
+			Point closestCellInSlice = new Point(cell.x, cell.y - 1);
+//          if (up) it makes a rectangle add it
+			Slice slice = getSlice(closestCellInSlice);
+			if (validSlice(slice, cell, closestCellInSlice)) {
+				continue;
+			}
 
-//            if (up) it makes a rectangle add it
-//                 Slice slice = getSlice(new Point(9,9));
-//                 validSlice(slice, unvisitedCells.get(i), closestCellInSlice);
+//          if (left)
+			closestCellInSlice = new Point(cell.x-1, cell.y);
+			slice = getSlice(closestCellInSlice);
+			if (validSlice(slice, cell, closestCellInSlice)) {
+				continue;
+			}
+//          if (right)
+			closestCellInSlice = new Point(cell.x+1, cell.y);
+			slice = getSlice(closestCellInSlice);
+			if (validSlice(slice, cell, closestCellInSlice)) {
+				continue;
+			}
 
-//            if not check (left)
-//                 Slice slice = getSlice(new Point(9,9));
-//                 validSlice(slice, unvisitedCells.get(i), closestCellInSlice);
-//            if not check (right)
-//                 Slice slice = getSlice(new Point(9,9));
-//                 validSlice(slice, unvisitedCells.get(i), closestCellInSlice);
-
-//            if not check (down)
-//                 Slice slice = getSlice(new Point(9,9));
-//                 validSlice(slice, unvisitedCells.get(i), closestCellInSlice);
-
-//            default leave it
-
+//          if (down)
+            closestCellInSlice = new Point(cell.x, cell.y+1);
+			slice = getSlice(closestCellInSlice);
+			if (validSlice(slice, cell, closestCellInSlice)) {
+				continue;
+			}
+		}
 	}
 
 	private Slice getSlice(Point cell) {
-//	    it has list of slices
-//        for each slice
-//            check if it contains cell
+		for (int i=0; i < slices.size(); i++) {
+			if (containsCell(slices.get(i),cell)) {
+				return slices.get(i);
+			}
+		}
 		return null;
 	}
 
+	private boolean containsCell (Slice slice, Point cell) {
+		Point upperLeft = slice.getLeftUpperCorner();
+		Point downRight = slice.getRightDownCorner();
+		if (downRight.getX() >= cell.getX() && upperLeft.getX() <= cell.getX()) {
+			if (downRight.getY() >= cell.getY() && upperLeft.getY() <= cell.getY()) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
 	private boolean validSlice(Slice slice, Point unvisitedCell, Point closestCellInSlice) {
-		//check cell position
-		//get width or height
-		//check for maximum number of cells by getArea() [full slice]
-		//getSliceArea() then add width or height if the exceed maximum number return false
-		//loop for same length of cells and check visited or not
-		//if they are unvisited
-		//add cells in the slice (backwards loop)
-		//return true
-		return false;
+		int length;
+		int sliceHeight = slice.getHeight();
+		int sliceWidth = slice.getWidth();
+		int sliceArea =  sliceHeight*sliceWidth;
+		Stack<Point> stack = new Stack<>();
+		if (sliceArea == maximumNumberofCells) {
+			return false;
+		}
+		if (closestCellInSlice.y == slice.getLeftUpperCorner().y) {
+			length = sliceWidth;
+		} else if (closestCellInSlice.x == slice.getRightDownCorner().x) {
+			length = sliceHeight;
+		} else {
+			return false;
+		}
+		if (sliceArea+length > maximumNumberofCells) {
+			return false;
+		}
+		//check direction
+		for (int i = 0; i < length; i++) {
+			if (!visitedCells[i][i]) { //TODO condition with directions
+				return false;
+			} else {
+				stack.add(new Point(i,i)); // TODO add correct location
+			}
+		}
+		for (int i = 0; i < stack.size(); i++) {
+			//TODO add cells in slice and set the cells visited
+		}
+		return true;
 
 	}
 
