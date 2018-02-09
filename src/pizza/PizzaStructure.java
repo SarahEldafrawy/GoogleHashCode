@@ -7,6 +7,7 @@ public class PizzaStructure {
 	private int totalTomatoesInPizza;
 	private int totalMashrumInPizza;
 	//TODO set a map O(1)[access and removing] points of for all cells to remove visited ones --Sara
+//	private 7aga unvisitedCells;
 	public PizzaStructure (char[][] pizza) {
 		this.pizza = pizza;
 	}

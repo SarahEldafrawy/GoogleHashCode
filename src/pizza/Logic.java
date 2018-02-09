@@ -21,7 +21,7 @@ public class Logic implements ILogic{
 	@Override
 	public ArrayList<Slice> solver() {
 		BFSStep();
-		sliceExtender();
+//		sliceExtender();
 		// TODO Auto-generated method stub
 
 		return slices;
@@ -87,21 +87,48 @@ public class Logic implements ILogic{
 		return null;
 	}
 
-	private void sliceExtender() {
+	private void loopCellsSliceExtender() {
+//	    it has list of unvisited cells
 
-		// SARA SARA SARA SARA SARA
-		//loop check unvisited cells in the structure created
-			//check full slice
-		//after getArea() check for full slice to set it
+//        for each in unvisited cells
 
+//            if (up) it makes a rectangle add it
+//                 Slice slice = getSlice(new Point(9,9));
+//                 validSlice(slice, unvisitedCells.get(i), closestCellInSlice);
 
+//            if not check (left)
+//                 Slice slice = getSlice(new Point(9,9));
+//                 validSlice(slice, unvisitedCells.get(i), closestCellInSlice);
+//            if not check (right)
+//                 Slice slice = getSlice(new Point(9,9));
+//                 validSlice(slice, unvisitedCells.get(i), closestCellInSlice);
 
-		// TODO
-		//take each unvisited cell and loop for slices
-		//if it is a rectangle
-		//check for new cells that they are unvisited
-		//if yes create the new cell
-		//check maximum number of cells
+//            if not check (down)
+//                 Slice slice = getSlice(new Point(9,9));
+//                 validSlice(slice, unvisitedCells.get(i), closestCellInSlice);
+
+//            default leave it
+
+	}
+
+	private Slice getSlice(Point cell) {
+//	    it has list of slices
+//        for each slice
+//            check if it contains cell
+		return null;
+	}
+
+	private boolean validSlice(Slice slice, Point unvisitedCell, Point closestCellInSlice) {
+		//check cell position
+		//get width or height
+		//check for maximum number of cells by getArea() [full slice]
+		//getSliceArea() then add width or height if the exceed maximum number return false
+		//loop for same length of cells and check visited or not
+		//if they are unvisited
+		//add cells in the slice (backwards loop)
+		//return true
+		return false;
+
 	}
 
 }
