@@ -4,19 +4,22 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import queues.Queue;
+
 public class Logic implements ILogic{
 	private ArrayList<Slice> slices;
 	private PizzaStructure pizzaStructure;
 	private boolean [][] visitedCells;
 	private char[][] pizzaYummy;
 	private int maximumNumberofCells;
-
+	private int row;
+	private int col;
 	public Logic (PizzaStructure pizzaStructure) {
 		this.pizzaStructure =pizzaStructure;
 		this.pizzaYummy = pizzaStructure.getPizza();
 		this.maximumNumberofCells = pizzaStructure.getMaxNumOfCells();
-		int row = pizzaYummy.length;
-		int col = pizzaYummy[0].length;
+		row = pizzaYummy.length;
+		col = pizzaYummy[0].length;
 		this.visitedCells = new boolean[row][col];
 		this.slices = new ArrayList<>();
 	}
@@ -32,8 +35,8 @@ public class Logic implements ILogic{
 
 	private void BFSStep() {
 		//loop 3al array O(n^2)
-		for (int i = 0; i < pizzaYummy.length; i++) {
-			for (int j = 0; j < pizzaYummy[0].length; j ++){
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j ++){
 				if (visitedCells[i][j]) {
 					continue;
 				}
@@ -84,10 +87,56 @@ public class Logic implements ILogic{
 
 	private Point BFS(Point startPoint) {
 
-		//set local visited in BFS that differs from the global one
-		//check collected area with maximum numbers of cells  --> getArea method
-		// TODO BFS algorithms --Alaa
-		return null;
+		boolean[][] visited = new boolean[row][col];
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				visited[i][j] = visitedCells[i][j];
+			}
+		}
+
+		Queue<Point> queue = new Queue<Point>();
+		queue.enqueue(startPoint);
+		Point currentPoint = startPoint;
+		Point endPoint = null;
+
+		Character endPointSybmol = getEndPointSymbol(startPoint);
+		while (!(queue.isEmpty())) {
+			currentPoint = (Point) queue.dequeue();
+			visited[currentPoint.x][currentPoint.y] = true;
+			int[] y = {0, 0, -1, 1};
+			int[] x = {1, -1, 0, 0};
+			if (pizzaYummy[currentPoint.x][currentPoint.y] == endPointSybmol) {
+				endPoint = new Point(currentPoint.x, currentPoint.y);
+				break;
+			}
+			for (int i = 0; i < x.length; i++) {
+				int rowNum = currentPoint.x + x[i];
+				int colNum = currentPoint.y + y[i];
+				if (rowNum < row && colNum < col
+				&& rowNum >= 0 && colNum >= 0
+				&& !visited[rowNum][colNum]) {
+					Point point = new Point(colNum, rowNum);
+					queue.enqueue(point);
+				}
+			}
+		}
+		// TODO elly byshta3'l fel BFS ya5od balo men el null hena
+		if (endPoint == null) {
+			return null;
+		}
+		//TODO ana shyfa goz2 el area kolo yt7t fel validate slice
+		Slice newSlice = new Slice(startPoint, endPoint);
+		if (newSlice.getArea() > maximumNumberofCells) {
+			return null;
+		}
+		return endPoint;
+	}
+
+	private Character getEndPointSymbol(Point startPoint) {
+		if (pizzaYummy[startPoint.x][startPoint.y] == 'T') {
+			return 'M';
+		}
+		return 'L';
 	}
 
 	private void loopCellsSliceExtender() {

@@ -6,12 +6,12 @@ public class Slice {
 	private int tomato;
 	private int mashrum;
 	private int numOfCells;
-	//TODO set full slice as a marker --Alaa
-	private Point leftUpperCorner;
-	private Point rightDownCorner;
-	public Slice (Point leftUpperCorner, Point rightDownCorner) {
-		this.leftUpperCorner = leftUpperCorner;
-		this.rightDownCorner = rightDownCorner;
+	private boolean fullSlice = false;
+	private Point upperLeftCorner;
+	private Point lowerRightCorner;
+	public Slice (Point upperLeftCorner, Point lowerRightCorner) {
+		this.upperLeftCorner = upperLeftCorner;
+		this.lowerRightCorner = lowerRightCorner;
 	}
 
 	public int getTomato() {
@@ -33,26 +33,34 @@ public class Slice {
 		this.numOfCells = numOfCells;
 	}
 	public int  getHeight(){
-		//TODO Slice-Height --Alaa
-		return 0;
+		return Math.abs(upperLeftCorner.x + lowerRightCorner.x) + 1;
 
 	}
 	public int getWidth(){
-		//TODO slice_width --Alaa
-		return 0;
+		return Math.abs(upperLeftCorner.y + lowerRightCorner.y) + 1;
 
 	}
+	public int getArea() {
+		return  getHeight() * getWidth();
+	}
+	public boolean isSliceFull() {
+		return fullSlice;
+	}
+	public void setFullSlice() {
+		//TODO you must set full slice when the slice is done if it's full
+		fullSlice = true;
+	}
 	public Point getLeftUpperCorner() {
-		return leftUpperCorner;
+		return upperLeftCorner;
 	}
 	public void setLeftUpperCorner(Point leftUpperCorner) {
-		this.leftUpperCorner = leftUpperCorner;
+		this.upperLeftCorner = leftUpperCorner;
 	}
 	public Point getRightDownCorner() {
-		return rightDownCorner;
+		return lowerRightCorner;
 	}
 	public void setRightDownCorner(Point rightDownCorner) {
-		this.rightDownCorner = rightDownCorner;
+		this.lowerRightCorner = rightDownCorner;
 	}
 
 }
